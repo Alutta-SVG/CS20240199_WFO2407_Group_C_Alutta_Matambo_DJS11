@@ -11,6 +11,9 @@ const Home = () => {
             const sortedShows = data.sort((a, b) =>
             a.title.localeCompare(b.title)
         );
+        setShows(sortedShows);
         })
-    })
+        .catch((error) => console.error('Error fetching shows:', error))
+        }, []);
+    }
 }
