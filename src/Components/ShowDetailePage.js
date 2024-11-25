@@ -13,5 +13,15 @@ const ShowDetailsPage = () => {
         .catch((error) => console.error('Error fetching show details:', error))
         }, [id]);
 
-        
+        if (!show) return <div>Loading...</div>;
+
+        return (
+            <div>
+                <h1>{show.title}</h1>
+                <p>{show.description}</p>
+            </div>
+            {show.seasons.map((season) => )
+                
+            }
+        )
     })
