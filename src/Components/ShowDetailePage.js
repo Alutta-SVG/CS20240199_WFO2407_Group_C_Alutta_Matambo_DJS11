@@ -10,4 +10,8 @@ const ShowDetailsPage = () => {
         fetch(`https://podcast-api.netlify.app/genre/${id}`)
         .then((response) => response.json())
         .then((data) => setShow (data))
+        .catch((error) => console.error('Error fetching show details:', error))
+        }, [id]);
+
+        
     })
