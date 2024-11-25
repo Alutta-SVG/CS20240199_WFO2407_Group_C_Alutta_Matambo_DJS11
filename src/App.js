@@ -6,6 +6,7 @@ import logo from './logo.svg';
 import './App.css';
 
 const App = () => {
+  <img src={logo} className="App-logo" alt="logo" />
   return (
    <Router>
     <Routes>
