@@ -19,15 +19,18 @@ const ShowDetailsPage = () => {
             <div>
                 <h1>{show.title}</h1>
                 <p>{show.description}</p>
+                <div>
+                    {show.seasons.map((season) => (
+                        <div key={season.id}>
+                            <h2>{season.title}</h2>
+                            {season.episodes.map((episode) => (
+                                <p key={episode.id}>{episode.title}</p>
+                            ))}
+                        </div>
+                    ))}
+                </div>
             </div>
-            {show.seasons.map((season) => )
-                <div key={season.id}>
-                <h2>{Season.title}</h2>
-                {season.episodes.map((episode) =>
-                    <p key={episode,id}>{episode.title}</p>
-                )}
-            }
-        )
-    }
-
+        );
+    };
+    
     export default ShowDetailsPage;
