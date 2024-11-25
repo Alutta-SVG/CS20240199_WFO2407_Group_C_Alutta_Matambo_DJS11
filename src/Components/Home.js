@@ -6,5 +6,11 @@ const Home = () => {
 
     useEffect (() => {
         fetch('https://podcast-api.netlify.app')
+        .then(response => response.json())
+        .then((data) => {
+            const sortedShows = data.sort((a, b) =>
+            a.title.localeCompare(b.title)
+        );
+        })
     })
 }
