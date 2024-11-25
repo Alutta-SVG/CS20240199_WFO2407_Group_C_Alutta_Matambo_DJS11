@@ -7,7 +7,12 @@ import './App.css';
 
 const App = () => {
   return (
-    <div className="App">
+   <Router>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/show/:id" element={<ShowDetailsPage />} />
+    </Routes>
+   </Router>
   
   );
 }
