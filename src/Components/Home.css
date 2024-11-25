@@ -1,0 +1,6 @@
+.home {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(90deg, #ec6c8d, #ff867a);
+    min-height: 100vh;
+    padding: 20px;
+}
