@@ -16,4 +16,13 @@ const Home = () => {
         .catch((error) => console.error('Error fetching shows:', error))
         }, []);
     }
-}
+
+    return (
+        <div className="home">
+        <header className = "header">
+            <h1>Podcast App</h1>
+            <input type = "text" placeholder = "Search...." className = " search-bar"></input>
+        </header>
+        
+        </div>
+    )
