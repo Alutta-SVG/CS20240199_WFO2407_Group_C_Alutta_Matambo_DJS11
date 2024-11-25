@@ -1,6 +1,6 @@
 .home {
     font-family: Arial, sans-serif;
-    background: linear-gradient(90deg, #ec6c8d, #ff867a);
+    background: linear-gradient(90deg, #c4fcf0,#4c8076 );
     min-height: 100vh;
     padding: 20px;
 }
@@ -10,7 +10,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background: #ff867a;
+    background: #4c8076;
     border-radius: 8px;
 }
 
