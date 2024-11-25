@@ -21,7 +21,13 @@ const ShowDetailsPage = () => {
                 <p>{show.description}</p>
             </div>
             {show.seasons.map((season) => )
-                
+                <div key={season.id}>
+                <h2>{Season.title}</h2>
+                {season.episodes.map((episode) =>
+                    <p key={episode,id}>{episode.title}</p>
+                )}
             }
         )
-    })
+    }
+
+    export default ShowDetailsPage;
