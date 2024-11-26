@@ -39,3 +39,8 @@
     color: #444;
     line-height: 1.4;
 }
+
+.episode:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
