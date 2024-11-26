@@ -1,18 +1,21 @@
-.navbar {
-    display: flex;
-    justify-content: center;
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
     background-color: #4c8076;
-    padding: 10px 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding-top: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
 }
 
-.nav-list {
+.sidebar-list {
     list-style: none;
-    display: flex;
-    gap: 20px;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .nav-list li a {
