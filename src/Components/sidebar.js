@@ -3,6 +3,11 @@ import { Link } from 'react-router-dom';
 import './sidebar.css';
 
 const sidebar = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [isDarkTheme, setIsDarkTheme] = useState(() =>{
+
+        return localStorage.getItem('theme') === 'dark';
+    })
     return (
         <nav className="sidebar">
             <ul className="sidebar-list">
