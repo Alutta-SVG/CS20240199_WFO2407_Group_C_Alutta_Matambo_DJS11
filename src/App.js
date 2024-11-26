@@ -6,15 +6,17 @@ import NavBar from './Components/NavBar';
 
 
 const App = () => {
-
     return (
         <Router>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/show/:id" element={<ShowDetailsPage />} />
-            </Routes>
+            <div>
+                <NavBar />
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/show/:id" element={<ShowDetailsPage />} />
+                </Routes>
+            </div>
         </Router>
     );
 };
-
+ 
 export default App;
