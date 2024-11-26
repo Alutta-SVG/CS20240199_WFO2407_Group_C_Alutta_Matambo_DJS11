@@ -7,7 +7,12 @@ const sidebar = () => {
     const [isDarkTheme, setIsDarkTheme] = useState(() =>{
 
         return localStorage.getItem('theme') === 'dark';
-    })
+    });
+
+    const toggleSidebar =() => {
+        setIsOpen(!isOpen);
+    };
+    
     return (
         <nav className="sidebar">
             <ul className="sidebar-list">
