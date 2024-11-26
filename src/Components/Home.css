@@ -57,3 +57,7 @@
     cursor: pointer;
     font-size: 0.9rem;
 }
+
+.details-button:hover {
+    background: #3e6a5c;
+}
