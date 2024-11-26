@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import './ShowDetailsPage.css';
+import '../Components/ShowDetailsPage.css';
 
 
 const ShowDetailsPage = () => {
