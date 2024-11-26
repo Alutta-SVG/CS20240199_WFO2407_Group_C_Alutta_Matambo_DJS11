@@ -38,7 +38,22 @@
     transition: transform 0.2s ease-in-out;
 }
 
+.show-card:hover {
+    transform: scale(1.05);
+}
+
 .show-image {
     max-width: 100%;
     border-radius: 8px;
+}
+
+.details-button {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #4c8076;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
 }
