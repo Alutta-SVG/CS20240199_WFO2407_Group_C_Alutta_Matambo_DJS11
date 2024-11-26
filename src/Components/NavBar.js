@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './NavBar.css';
+import './sidebar.css';
 
-const NavBar = () => {
+const sidebar = () => {
     return (
-        <nav className="navbar">
-            <ul className="nav-list">
+        <nav className="sidebar">
+            <ul className="sidebar-list">
                 <li>
                     <Link to="/Home">Home</Link>
                 </li>
@@ -20,4 +20,4 @@ const NavBar = () => {
     );
 };
 
-export default NavBar;
+export default sidebar;
