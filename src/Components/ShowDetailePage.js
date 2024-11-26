@@ -7,7 +7,7 @@ const ShowDetailsPage = () => {
     const [show, setShow] = useState(null);
 
     useEffect(() => {
-        fetch(`https://podcast-api.netlify.app/genre/${id}`)
+        fetch(`https://podcast-api.netlify.app/id/${id}`)
             .then((response) => response.json())
             .then((data) => setShow(data))
             .catch((error) =>
