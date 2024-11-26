@@ -4,3 +4,9 @@
     padding: 20px;
     min-height: 100vh;
 }
+
+.show-details-container h1 {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
