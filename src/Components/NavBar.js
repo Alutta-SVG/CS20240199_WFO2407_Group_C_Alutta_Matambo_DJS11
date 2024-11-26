@@ -7,5 +7,17 @@ const NavBar = () => {
         <nav className="navbar">
             <ul className="nav-list">
                 <li>
-                    <Link to="/">Home</Link>
+                    <Link to="/Home">Home</Link>
                 </li>
+                <li>
+                    <Link to="/about">About</Link>
+                </li>
+                <li>
+                    <Link to="/contact"></Link>
+                </li>
+            </ul>
+        </nav>
+    );
+};
+
+export default NavBar;
