@@ -1,21 +1,19 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes,Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './Components/Home';
 import ShowDetailsPage from './Components/ShowDetailePage';
-import logo from './logo.svg';
-import './App.css';
+
 
 const App = () => {
-  <img src={logo} className="App-logo" alt="logo" />
-  return (
-   <Router>
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/show/:id" element={<ShowDetailsPage />} />
-    </Routes>
-   </Router>
-  
-  );
-}
+
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/show/:id" element={<ShowDetailsPage />} />
+            </Routes>
+        </Router>
+    );
+};
 
 export default App;
