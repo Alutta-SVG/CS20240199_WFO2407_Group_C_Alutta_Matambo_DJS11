@@ -1,41 +1,54 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Home.css';
 
 const Home = () => {
-    const [shows, setShows] = useState ([]);
+    const [shows, setShows] = useState([]);
+    const navigate = useNavigate();
 
-    useEffect (() => {
+    useEffect(() => {
         fetch('https://podcast-api.netlify.app')
-        .then(response => response.json())
-        .then((data) => {
-            const sortedShows = data.sort((a, b) =>
-            a.title.localeCompare(b.title)
-        );
-        setShows(sortedShows);
-        })
-        .catch((error) => console.error('Error fetching shows:', error))
-        }, []);
+            .then((response) => response.json())
+            .then((data) => {
+                const sortedShows = data.sort((a, b) =>
+                    a.title.localeCompare(b.title)
+                );
+                setShows(sortedShows);
+            })
+            .catch((error) => console.error('Error fetching shows:', error));
+    }, []);
 
-        return (
-            <div className="home">
-            <header className = "header">
+    return (
+        <div className="home">
+            <header className="header">
                 <h1>Podcast App</h1>
-                <input type = "text" placeholder = "Search...." className = " search-bar"></input>
+                <input
+                    type="text"
+                    placeholder="Search for a podcast..."
+                    className="search-bar"
+                />
             </header>
-            <div className = "shows-grid">
+            <div className="shows-grid">
                 {shows.map((show) => (
-                    <div key = {show.id} className = "show-card">
-                        <img src ={show.image} alt={show.title} className="show-image"/>
+                    <div key={show.id} className="show-card">
+                        <img
+                            src={show.image}
+                            alt={show.title}
+                            className="show-image"
+                        />
                         <h3>{show.title}</h3>
                         <p>{show.description}</p>
-            </div>
+                        <button
+                            className="details-button"
+                            onClick={() => navigate(`/show/${show.id}`)}
+                        >
+                            View Details
+                        </button>
+                    </div>
                 ))}
             </div>
-            </div>
-        );
+        </div>
+    );
+};
 
-    }
-
-    export default Home;
-
-    
+export default Home;
