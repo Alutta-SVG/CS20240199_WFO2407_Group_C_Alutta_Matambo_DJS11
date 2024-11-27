@@ -37,21 +37,34 @@ const sidebar = () => {
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.body.className = savedTheme === 'light' ? 'light-theme' : 'dark';
     }, []);
+
     return (
-        <nav className="sidebar">
-            <ul className="sidebar-list">
-                <li>
-                    <Link to="/Home">Home</Link>
-                </li>
-                <li>
-                    <Link to="/about">About</Link>
-                </li>
-                <li>
-                    <Link to="/contact"></Link>
-                </li>
-            </ul>
-        </nav>
+        <div>
+            {/* Hamburger Button */}
+            <button className="hamburger" onClick={toggleSidebar}>
+                ☰
+            </button>
+
+            {/* Sidebar */}
+            <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
+                <ul className="sidebar-list">
+                    <li>
+                        <Link to="/" onClick={toggleSidebar}>Home</Link>
+                    </li>
+                    <li>
+                        <Link to="/about" onClick={toggleSidebar}>About</Link>
+                    </li>
+                    <li>
+                        <Link to="/contact" onClick={toggleSidebar}>Contact</Link>
+                    </li>
+                </ul>
+                <button className="theme-toggle" onClick={toggleTheme}>
+                    {isDarkTheme ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
+                </button>
+            </div>
+        </div>
     );
 };
+
 
 export default sidebar;
