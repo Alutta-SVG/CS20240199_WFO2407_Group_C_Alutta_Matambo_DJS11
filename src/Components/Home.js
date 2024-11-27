@@ -46,24 +46,34 @@ const Home = () => {
         }
     };
 
+    // Handle clicking on a suggestion
+    const handleSuggestionClick = (suggestion) => {
+        setSearchQuery(suggestion.title); // Set the search input to the suggestion title
+        setFilteredShows([suggestion]); // Filter shows to only display the selected suggestion
+        setSuggestions([]); // Clear suggestions
+    };
 
     return (
         <div className="home">
             <header className="header">
                 <h1>Podcast App</h1>
-                <div className = "search-container"
-                <input
-                    type="text"
-                    placeholder="Search for a podcast..."
-                    className="search-bar"
-                    value={searchQuery}
+                <div className="search-container">
+                    <input
+                        type="text"
+                        placeholder="Search for a podcast..."
+                        className="search-bar"
+                        value={searchQuery}
                         onChange={handleInputChange}
                         onKeyDown={handleSearch}
-                />
-                  {suggestions.length > 0 && (
+                    />
+                    {suggestions.length > 0 && (
                         <ul className="suggestions-list">
                             {suggestions.map(suggestion => (
-                                <li key={suggestion.id}>
+                                <li
+                                    key={suggestion.id}
+                                    onClick={() => handleSuggestionClick(suggestion)}
+                                    className="suggestion-item"
+                                >
                                     {suggestion.title}
                                 </li>
                             ))}
@@ -72,7 +82,7 @@ const Home = () => {
                 </div>
             </header>
             <div className="shows-grid">
-                {shows.map((show) => (
+                {filteredShows.map((show) => (
                     <div key={show.id} className="show-card">
                         <img
                             src={show.image}
