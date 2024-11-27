@@ -71,3 +71,8 @@
     font-size: 1rem;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+.theme-toggle:hover {
+    background-color: #4c8076;
+    color: white;
+}
