@@ -25,6 +25,14 @@ const sidebar = () => {
             document.removeEventListener('click', handleOutsideClick);
         };
     },[isOpen]);
+
+    const toggleTheme = () => {
+        const newTheme = isDarkTheme ? 'light' : 'dark';
+        setIsDarkTheme(!isDarkTheme);
+        document.body.className = newTheme === 'light' ? 'light-theme' : 'dark';
+        localStorage.setItem('theme', newTheme);
+    };
+    
     return (
         <nav className="sidebar">
             <ul className="sidebar-list">
