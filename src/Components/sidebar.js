@@ -18,7 +18,13 @@ const sidebar = () => {
             setIsOpen(false);
         }
     };
-    
+
+    useEffect(() => {
+        document.addEventListener('click', handleOutsideClick);
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    },[isOpen]);
     return (
         <nav className="sidebar">
             <ul className="sidebar-list">
