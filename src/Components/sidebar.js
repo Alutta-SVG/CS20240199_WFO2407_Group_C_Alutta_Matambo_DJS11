@@ -59,7 +59,7 @@ const Sidebar = () => {
                         <Link to="/about" onClick={toggleSidebar}>About</Link>
                     </li>
                     <li>
-                        <Link to="/contact" onClick={toggleSidebar}>Contact</Link>
+                        <Link to="/favourites" onClick={toggleSidebar}>Favourites</Link>
                     </li>
                 </ul>
                 <button className="theme-toggle" onClick={toggleTheme}>
