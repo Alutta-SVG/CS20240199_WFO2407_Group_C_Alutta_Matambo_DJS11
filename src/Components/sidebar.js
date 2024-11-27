@@ -13,6 +13,12 @@ const sidebar = () => {
         setIsOpen(!isOpen);
     };
     
+    const handleOutsideClick = (event) =>{
+        if (isOpen && !event.target.closest('sidebar')&& !event.target.closest('.hamburger')){
+            setIsOpen(false);
+        }
+    };
+    
     return (
         <nav className="sidebar">
             <ul className="sidebar-list">
