@@ -81,3 +81,8 @@ body.light-theme {
     background-color: #f9f9f9;
     color: #000;
 }
+
+body.dark-theme {
+    background-color: #1e1e1e;
+    color: #fff;
+}
