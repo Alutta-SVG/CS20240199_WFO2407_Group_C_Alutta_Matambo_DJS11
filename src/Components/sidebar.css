@@ -76,3 +76,8 @@
     background-color: #4c8076;
     color: white;
 }
+
+body.light-theme {
+    background-color: #f9f9f9;
+    color: #000;
+}
