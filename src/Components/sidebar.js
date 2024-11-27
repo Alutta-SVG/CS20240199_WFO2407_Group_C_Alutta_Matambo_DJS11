@@ -32,7 +32,11 @@ const sidebar = () => {
         document.body.className = newTheme === 'light' ? 'light-theme' : 'dark';
         localStorage.setItem('theme', newTheme);
     };
-    
+
+    useEffect (() => {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.className = savedTheme === 'light' ? 'light-theme' : 'dark';
+    }, []);
     return (
         <nav className="sidebar">
             <ul className="sidebar-list">
