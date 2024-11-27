@@ -20,6 +20,18 @@
     transform: translateX(-100%);
 }
 
+.hamburger {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    z-index: 1100;
+}
+
 .sidebar-list {
     list-style: none;
     padding: 0;
@@ -45,4 +57,17 @@
 
 .sidebar-list li a:hover {
     background-color: #366356;
+}
+
+.theme-toggle {
+    background-color: #fff;
+    color: #4c8076;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin: 20px auto;
+    display: block;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
