@@ -16,6 +16,9 @@
     transform: translateX(0);
 }
 
+.sidebar.closed {
+    transform: translateX(-100%);
+}
 
 .sidebar-list {
     list-style: none;
