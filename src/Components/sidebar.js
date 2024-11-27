@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './sidebar.css';
+import '../Components/sidebar.css';
 
-const sidebar = () => {
+const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [isDarkTheme, setIsDarkTheme] = useState(() =>{
-
+    const [isDarkTheme, setIsDarkTheme] = useState(() => {
+        // Retrieve theme preference from localStorage
         return localStorage.getItem('theme') === 'dark';
     });
 
-    const toggleSidebar =() => {
+    // Toggle Sidebar
+    const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
-    
-    const handleOutsideClick = (event) =>{
-        if (isOpen && !event.target.closest('sidebar')&& !event.target.closest('.hamburger')){
+
+    // Close Sidebar on Outside Click
+    const handleOutsideClick = (event) => {
+        if (isOpen && !event.target.closest('.sidebar') && !event.target.closest('.hamburger')) {
             setIsOpen(false);
         }
     };
@@ -24,18 +26,20 @@ const sidebar = () => {
         return () => {
             document.removeEventListener('click', handleOutsideClick);
         };
-    },[isOpen]);
+    }, [isOpen]);
 
+    // Toggle Theme
     const toggleTheme = () => {
         const newTheme = isDarkTheme ? 'light' : 'dark';
         setIsDarkTheme(!isDarkTheme);
-        document.body.className = newTheme === 'light' ? 'light-theme' : 'dark';
-        localStorage.setItem('theme', newTheme);
+        document.body.className = newTheme === 'dark' ? 'dark-theme' : 'light-theme';
+        localStorage.setItem('theme', newTheme); // Save to localStorage
     };
 
-    useEffect (() => {
+    // Apply theme on initial load
+    useEffect(() => {
         const savedTheme = localStorage.getItem('theme') || 'light';
-        document.body.className = savedTheme === 'light' ? 'light-theme' : 'dark';
+        document.body.className = savedTheme === 'dark' ? 'dark-theme' : 'light-theme';
     }, []);
 
     return (
@@ -66,5 +70,4 @@ const sidebar = () => {
     );
 };
 
-
-export default sidebar;
+export default Sidebar;
