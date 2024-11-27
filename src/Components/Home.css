@@ -61,3 +61,37 @@
 .details-button:hover {
     background: #3e6a5c;
 }
+
+.search-container {
+    position: relative;
+}
+
+.suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    z-index: 10;
+    max-height: 150px; /* Optional: limit the height */
+    overflow-y: auto; /* Optional: enable scrolling for long lists */
+}
+
+.suggestions-list li {
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.suggestions-list li:last-child {
+    border-bottom: none;
+}
+
+.suggestions-list li:hover {
+    background-color: #f0f0f0;
+}
