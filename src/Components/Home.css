@@ -95,3 +95,23 @@
 .suggestions-list li:hover {
     background-color: #f0f0f0;
 }
+
+
+.badges {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 8px;
+}
+
+.badge {
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.show-info {
+    text-align: center;
+}

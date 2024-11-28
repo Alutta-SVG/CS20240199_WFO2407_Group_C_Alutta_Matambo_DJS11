@@ -56,7 +56,7 @@ const Sidebar = () => {
                         <Link to="/" onClick={toggleSidebar}>Home</Link>
                     </li>
                     <li>
-                        <Link to="/about" onClick={toggleSidebar}>About</Link>
+                        <Link to="/about" onClick={toggleSidebar}>Genre</Link>
                     </li>
                     <li>
                         <Link to="/favourites" onClick={toggleSidebar}>Favourites</Link>

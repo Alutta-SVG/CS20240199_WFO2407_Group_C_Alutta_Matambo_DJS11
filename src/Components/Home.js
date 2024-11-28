@@ -1,28 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Home.css';
+import '../Components/Home.css';
 
 const Home = () => {
     const [shows, setShows] = useState([]);
-    const navigate = useNavigate();
+
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredShows, setFilteredShows] = useState([]);
-    const [suggestions, setSuggestions] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch('https://podcast-api.netlify.app')
             .then((response) => response.json())
             .then((data) => {
-                const sortedShows = data.sort((a, b) =>
-                    a.title.localeCompare(b.title)
-                );
-                setShows(sortedShows);
-                setFilteredShows(sortedShows);
+                setShows(data);
+                setFilteredShows(data);
             })
             .catch((error) => console.error('Error fetching shows:', error));
     }, []);
 
-    const handleInputChange = (e) => {
+    const handleSearch = (e) => {
         const query = e.target.value;
         setSearchQuery(query);
 
@@ -30,56 +27,25 @@ const Home = () => {
             const matchingShows = shows.filter(show =>
                 show.title.toLowerCase().includes(query.toLowerCase())
             );
-            setSuggestions(matchingShows.slice(0, 5)); // Limit to 5 suggestions
+
+setFilteredShows(matchingShows);
+
         } else {
-            setSuggestions([]);
+            setFilteredShows(shows);
         }
-    };
-
-    const handleSearch = (e) => {
-        if (e.key === 'Enter') {
-            const matchingShows = shows.filter(show =>
-                show.title.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-            setFilteredShows(matchingShows);
-            setSuggestions([]); // Clear suggestions on search
-        }
-    };
-
-    // Handle clicking on a suggestion
-    const handleSuggestionClick = (suggestion) => {
-        setSearchQuery(suggestion.title); // Set the search input to the suggestion title
-        setFilteredShows([suggestion]); // Filter shows to only display the selected suggestion
-        setSuggestions([]); // Clear suggestions
     };
 
     return (
         <div className="home">
             <header className="header">
                 <h1>Podcast App</h1>
-                <div className="search-container">
-                    <input
-                        type="text"
-                        placeholder="Search for a podcast..."
-                        className="search-bar"
-                        value={searchQuery}
-                        onChange={handleInputChange}
-                        onKeyDown={handleSearch}
-                    />
-                    {suggestions.length > 0 && (
-                        <ul className="suggestions-list">
-                            {suggestions.map(suggestion => (
-                                <li
-                                    key={suggestion.id}
-                                    onClick={() => handleSuggestionClick(suggestion)}
-                                    className="suggestion-item"
-                                >
-                                    {suggestion.title}
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
+                <input
+                    type="text"
+                    placeholder="Search for a podcast..."
+                    className="search-bar"
+                    value={searchQuery}
+                    onChange={handleSearch}
+                />
             </header>
             <div className="shows-grid">
                 {filteredShows.map((show) => (
@@ -89,8 +55,13 @@ const Home = () => {
                             alt={show.title}
                             className="show-image"
                         />
-                        <h3>{show.title}</h3>
-                        <p>{show.description}</p>
+                        <div className="show-info">
+                            <h3>{show.title}</h3>
+                            <div className="badges">
+                                <span className="badge">Seasons: {show.seasons.length}</span>
+                                <span className="badge">Episodes: {show.seasons.reduce((acc, season) => acc + season.episodes.length, 0)}</span>
+                            </div>
+                        </div>
                         <button
                             className="details-button"
                             onClick={() => navigate(`/show/${show.id}`)}
