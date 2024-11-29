@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { format } from 'date-fns';
 import '../Components/ShowDetailsPage.css';
 
 const ShowDetailsPage = () => {
@@ -36,10 +35,6 @@ const ShowDetailsPage = () => {
         const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
         setFavorites(storedFavorites);
     }, [id]);
-
-    const formattedDate = show?.updated_at
-        ? format(new Date(show.updated_at), 'MMMM dd, yyyy')
-        : 'Date not available';
 
     const updateFavorites = (updatedFavorites) => {
         setFavorites(updatedFavorites);
@@ -100,7 +95,6 @@ const ShowDetailsPage = () => {
     return (
         <div className="show-details-container">
             <h1>{show?.title}</h1>
-            <p>Last updated: {formattedDate}</p>
 
             {show?.description && (
                 <p>{show.description}</p>
