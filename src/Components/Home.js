@@ -4,7 +4,6 @@ import '../Components/Home.css';
 
 const Home = () => {
     const [shows, setShows] = useState([]);
-
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredShows, setFilteredShows] = useState([]);
     const navigate = useNavigate();
@@ -27,9 +26,7 @@ const Home = () => {
             const matchingShows = shows.filter(show =>
                 show.title.toLowerCase().includes(query.toLowerCase())
             );
-
-setFilteredShows(matchingShows);
-
+            setFilteredShows(matchingShows);
         } else {
             setFilteredShows(shows);
         }
@@ -58,8 +55,12 @@ setFilteredShows(matchingShows);
                         <div className="show-info">
                             <h3>{show.title}</h3>
                             <div className="badges">
-                                <span className="badge">Seasons: {show.seasons.length}</span>
-                                <span className="badge">Episodes: {show.seasons.reduce((acc, season) => acc + season.episodes.length, 0)}</span>
+                                <span className="badge">
+                                    Seasons: {Array.isArray(show.seasons) ? show.seasons.length : 0}
+                                </span>
+                                <span className="badge">
+                                    Episodes: {Array.isArray(show.seasons) ? show.seasons.reduce((acc, season) => acc + (Array.isArray(season.episodes) ? season.episodes.length : 0), 0) : 0}
+                                </span>
                             </div>
                         </div>
                         <button

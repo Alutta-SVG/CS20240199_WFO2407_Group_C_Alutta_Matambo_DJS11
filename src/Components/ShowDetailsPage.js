@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns'; 
+import '../Components/ShowDetailsPage.css';
 
 const ShowDetailsPage = () => {
     const { id } = useParams();
@@ -21,10 +22,15 @@ const ShowDetailsPage = () => {
 
     if (!show) return <div>Loading...</div>;
 
+    // Validate the `updated_at` field
+    const formattedDate = show.updated_at
+        ? format(new Date(show.updated_at), 'MMMM dd, yyyy')
+        : 'Date not available';
+
     return (
         <div className="show-details">
             <h1>{show.title}</h1>
-            <p>Last updated: {format(new Date(show.updated_at), 'MMMM dd, yyyy')}</p>
+            <p>Last updated: {formattedDate}</p>
 
             <div className="seasons">
                 <h2>Seasons</h2>
