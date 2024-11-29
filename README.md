@@ -39,8 +39,6 @@ Deployment Process
 The app was deployed using Netlify, which provided a seamless process for hosting. During deployment, a challenge was faced with an installed framework that caused issues. The framework was removed from every page in the app, which resolved the deployment issues and allowed the code to run successfully.
 
 Future Improvements
-Login/Sign-In/Sign-Out Features: Adding functionality for users to sign in and sign out of their accounts.
-Bug Fixes: Currently, there is a bug where playing one podcast triggers all podcasts to play. This needs to be fixed to improve the user experience.
 Improved Favorites Functionality: Streamlining the "Add to Favorites" process to avoid issues with multiple favorites being added or triggered unintentionally.
 Lessons Learned
 Throughout the development process, I learned valuable lessons about the importance of following user stories and having a clear structure in the app’s design and functionality. Creative thinking was crucial in overcoming challenges, and the process helped build confidence in React and frontend development.
