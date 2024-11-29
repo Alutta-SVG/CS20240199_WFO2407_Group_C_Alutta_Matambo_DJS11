@@ -115,3 +115,26 @@
 .show-info {
     text-align: center;
 }
+
+
+.light-theme {
+    background: #ffffff; 
+    color: #000000; 
+}
+
+
+.dark-theme {
+    background: #121212; 
+    color: #ffffff; 
+}
+
+
+.dark-theme .show-card {
+    background: #1e1e1e; 
+    color: #ffffff; 
+}
+
+.light-theme .show-card {
+    background: #ffffff; 
+    color: #000000; 
+}
