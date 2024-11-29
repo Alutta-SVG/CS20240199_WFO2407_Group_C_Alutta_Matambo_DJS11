@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import '../Components/ShowDetailsPage.css';
 
 const ShowDetailsPage = () => {
     const { id } = useParams();
+    const navigate = useNavigate(); // Initialize navigate
     const [show, setShow] = useState(null);
     const [selectedSeason, setSelectedSeason] = useState(null);
     const [favorites, setFavorites] = useState([]);
     const [currentAudio, setCurrentAudio] = useState(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [progress, setProgress] = useState(0);
-    const [isBarVisible, setIsBarVisible] = useState(false); // New state for progress bar visibility
+    const [isBarVisible, setIsBarVisible] = useState(false);
     const audioRef = useRef(null);
 
     useEffect(() => {
@@ -25,7 +26,7 @@ const ShowDetailsPage = () => {
             })
             .catch((error) => console.error('Error fetching show details:', error));
 
-        const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const storedFavorites = JSON.parse(localStorage.getItem('/Favourites')) || [];
         setFavorites(storedFavorites);
     }, [id]);
 
@@ -35,17 +36,19 @@ const ShowDetailsPage = () => {
 
     const updateFavorites = (updatedFavorites) => {
         setFavorites(updatedFavorites);
-        localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+        localStorage.setItem('/Favourites', JSON.stringify(updatedFavorites));
     };
 
     const handleAddToFavorites = (episode) => {
         const newFavorites = [...favorites, episode];
         updateFavorites(newFavorites);
+        navigate('/Favourites');  // Navigate to Favorites page after adding
     };
 
     const handleRemoveFromFavorites = (episodeId) => {
         const updatedFavorites = favorites.filter(fav => fav.id !== episodeId);
         updateFavorites(updatedFavorites);
+        navigate('/Favourites');  // Navigate to Favorites page after removal
     };
 
     const isFavorite = (episodeId) => {
@@ -89,7 +92,7 @@ const ShowDetailsPage = () => {
                 <ul className="season-list">
                     {show?.seasons.map((season) => (
                         <li
-                            key={season.id}
+                            key={season.id} // Unique key for seasons
                             className={`season-item ${selectedSeason?.id === season.id ? 'active' : ''}`}
                             onClick={() => setSelectedSeason(season)}
                         >
@@ -104,7 +107,7 @@ const ShowDetailsPage = () => {
                     <h3>Episodes in {selectedSeason.title}</h3>
                     <ul className="episode-list">
                         {selectedSeason.episodes.map((episode) => (
-                            <li key={episode.id} className="episode">
+                            <li key={episode.id} className="episode"> {/* Unique key for episodes */}
                                 <div className="episode-info">
                                     <span>{episode.title}</span>
                                     <div className="episode-actions">
@@ -134,14 +137,11 @@ const ShowDetailsPage = () => {
                         ref={audioRef}
                         src={currentAudio}
                         onTimeUpdate={handleTimeUpdate}
-                        onEnded={handleAudioEnd} // Handle audio end
+                        onEnded={handleAudioEnd}
                     ></audio>
-                    {isBarVisible && ( // Show progress bar based on visibility state
+                    {isBarVisible && (
                         <div className="progress-bar">
-                            <div
-                                className="progress"
-                                style={{ width: `${progress}%` }}
-                            ></div>
+                            <div className="progress" style={{ width: `${progress}%` }}></div>
                         </div>
                     )}
                 </div>

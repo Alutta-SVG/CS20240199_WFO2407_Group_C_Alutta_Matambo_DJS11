@@ -19,12 +19,14 @@ const Sidebar = () => {
         const fetchGenres = async () => {
             try {
                 const response = await fetch(
-                    'https://podcast-api.netlify.app/genre/'
+                    'https://podcast-api.netlify.app/genre/3'
                 );
                 const data = await response.json();
-                setGenres(data.genres); // Update genres state
+                console.log('API Response:', data); // Log the API response to inspect its structure
+                setGenres(data.genres || []); // Safeguard against undefined genres
             } catch (error) {
                 console.error('Error fetching genres:', error);
+                setGenres([]); // Ensure genres is an empty array on error
             }
         };
 
@@ -48,17 +50,21 @@ const Sidebar = () => {
                         <Link to="/" onClick={toggleSidebar}>Home</Link>
                     </li>
                     <li>
-                        <Link to="/favourites" onClick={toggleSidebar}>Favourites</Link>
+                        <Link to="/Favourites" onClick={toggleSidebar}>Favourites</Link>
                     </li>
                     {/* Genre Tab */}
                     <li>
                         <span>Genres</span>
                         <ul className="genre-list">
-                            {genres.map((genre) => (
-                                <li key={genre.id} className="genre-item">
-                                    {genre.name}
-                                </li>
-                            ))}
+                            {Array.isArray(genres) && genres.length > 0 ? (
+                                genres.map((genre) => (
+                                    <li key={genre.id} className="genre-item">
+                                        {genre.name}
+                                    </li>
+                                ))
+                            ) : (
+                                <li>Loading genres...</li>
+                            )}
                         </ul>
                     </li>
                 </ul>

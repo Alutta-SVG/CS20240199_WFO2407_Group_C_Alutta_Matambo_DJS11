@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-
 const FavoritesPage = () => {
   const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
-    const storedFavorites = localStorage.getItem('favorites');
+    const storedFavorites = localStorage.getItem('/Favourites');
     if (storedFavorites) {
       setFavorites(JSON.parse(storedFavorites));
     }
@@ -19,9 +18,9 @@ const FavoritesPage = () => {
       ) : (
         <ul>
           {favorites.map((show) => (
-            <li key={show.id}>
-              <h3>{show.name}</h3>
-              <p>{show.description}</p>
+            <li key={show.id || `${show.name}-${show.audioUrl}`}>
+              <h3>{show.name || 'No name available'}</h3>
+              <p>{show.description || 'No description available'}</p>
             </li>
           ))}
         </ul>
