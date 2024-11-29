@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../Components/Home.css';
 
-
 const Home = () => {
     const [shows, setShows] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredShows, setFilteredShows] = useState([]);
+    const [sortOption, setSortOption] = useState(''); // To track selected sort option
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -33,6 +33,21 @@ const Home = () => {
         }
     };
 
+    const handleSort = (option) => {
+        setSortOption(option);
+
+        let sortedShows = [...filteredShows];
+        if (option === 'A-Z') {
+            sortedShows.sort((a, b) => a.title.localeCompare(b.title));
+        } else if (option === 'Z-A') {
+            sortedShows.sort((a, b) => b.title.localeCompare(a.title));
+        } else if (option === 'Recently Updated') {
+            sortedShows.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+        }
+
+        setFilteredShows(sortedShows);
+    };
+
     return (
         <div className="home">
             <header className="header">
@@ -44,6 +59,16 @@ const Home = () => {
                     value={searchQuery}
                     onChange={handleSearch}
                 />
+                <select
+                    className="sort-dropdown"
+                    value={sortOption}
+                    onChange={(e) => handleSort(e.target.value)}
+                >
+                    <option value="">Sort By</option>
+                    <option value="A-Z">A to Z</option>
+                    <option value="Z-A">Z to A</option>
+                    <option value="Recently Updated">Recently Updated</option>
+                </select>
             </header>
             <div className="shows-grid">
                 {filteredShows.map((show) => (

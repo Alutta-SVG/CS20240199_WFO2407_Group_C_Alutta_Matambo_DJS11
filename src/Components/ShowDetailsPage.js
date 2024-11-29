@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { format } from 'date-fns'; 
+import { format } from 'date-fns';
 import '../Components/ShowDetailsPage.css';
 
 const ShowDetailsPage = () => {
     const { id } = useParams();
     const [show, setShow] = useState(null);
     const [selectedSeason, setSelectedSeason] = useState(null);
+    const [favorites, setFavorites] = useState([]);
 
     useEffect(() => {
         fetch(`https://podcast-api.netlify.app/id/${id}`)
@@ -18,66 +19,52 @@ const ShowDetailsPage = () => {
                 }
             })
             .catch((error) => console.error('Error fetching show details:', error));
+
+        const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        setFavorites(storedFavorites);
     }, [id]);
 
-    if (!show) return <div>Loading...</div>;
-
-    // Validate the `updated_at` field
-    const formattedDate = show.updated_at
+    const formattedDate = show?.updated_at
         ? format(new Date(show.updated_at), 'MMMM dd, yyyy')
         : 'Date not available';
 
-    // Utility function to get favorites from localStorage
-    const getFavoritesFromLocalStorage = () => {
-        const favorites = localStorage.getItem('favorites');
-        return favorites ? JSON.parse(favorites) : [];
+    const updateFavorites = (updatedFavorites) => {
+        setFavorites(updatedFavorites);
+        localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
     };
 
-    // Add show to favorites
-    const handleAddToFavorites = (show) => {
-        const favorites = getFavoritesFromLocalStorage();
-        if (!favorites.some(fav => fav.id === show.id)) {
-            favorites.push(show);
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-        }
+    const handleAddToFavorites = (episode) => {
+        const newFavorites = [...favorites, episode];
+        updateFavorites(newFavorites);
     };
 
-    // Remove show from favorites
-    const handleRemoveFromFavorites = (showId) => {
-        let favorites = getFavoritesFromLocalStorage();
-        favorites = favorites.filter(fav => fav.id !== showId);
-        localStorage.setItem('favorites', JSON.stringify(favorites));
+    const handleRemoveFromFavorites = (episodeId) => {
+        const updatedFavorites = favorites.filter(fav => fav.id !== episodeId);
+        updateFavorites(updatedFavorites);
     };
 
-    // Handle play functionality
-    const handlePlay = (show) => {
-        // Placeholder for actual play logic
-        console.log(`Playing: ${show.title}`);
+    const isFavorite = (episodeId) => {
+        return favorites.some(fav => fav.id === episodeId);
     };
 
-    // Check if show is already in favorites
-    const isFavorite = getFavoritesFromLocalStorage().some(fav => fav.id === show.id);
+    const handlePlay = (episode) => {
+        console.log(`Playing episode: ${episode.title}`);
+    };
+
+    if (!show) return <div>Loading...</div>;
 
     return (
-        <div className="show-details">
+        <div className="show-details-container">
             <h1>{show.title}</h1>
             <p>Last updated: {formattedDate}</p>
 
-            <div className="show-summary">
-                <h2>Show Summary</h2>
-                <p>{show.description}</p>
-            </div>
-
-            <div className="seasons">
+            <div className="season-container">
                 <h2>Seasons</h2>
-                <p>Total Seasons: {show.seasons.length}</p>
-                <p>Total Episodes: {show.seasons.reduce((total, season) => total + season.episodes.length, 0)}</p>
-
                 <ul className="season-list">
                     {show.seasons.map((season) => (
                         <li
                             key={season.id}
-                            className={`season-item ${selectedSeason && selectedSeason.id === season.id ? 'active' : ''}`}
+                            className={`season-item ${selectedSeason?.id === season.id ? 'active' : ''}`}
                             onClick={() => setSelectedSeason(season)}
                         >
                             {season.title}
@@ -87,25 +74,31 @@ const ShowDetailsPage = () => {
             </div>
 
             {selectedSeason && (
-                <div className="season-details">
+                <div className="episodes">
                     <h3>Episodes in {selectedSeason.title}</h3>
-                    <p>{selectedSeason.description}</p> {/* Season Description */}
                     <ul className="episode-list">
                         {selectedSeason.episodes.map((episode) => (
-                            <li key={episode.id}>{episode.title}</li>
+                            <li key={episode.id} className="episode">
+                                <div className="episode-info">
+                                    <span>{episode.title}</span>
+                                    <div className="episode-actions">
+                                        <button onClick={() => handlePlay(episode)}>Play</button>
+                                        {isFavorite(episode.id) ? (
+                                            <button onClick={() => handleRemoveFromFavorites(episode.id)}>
+                                                Remove from Favorites
+                                            </button>
+                                        ) : (
+                                            <button onClick={() => handleAddToFavorites(episode)}>
+                                                Add to Favorites
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+                            </li>
                         ))}
                     </ul>
                 </div>
             )}
-
-            <div className="action-buttons">
-                <button onClick={() => handlePlay(show)}>Play</button>
-                {isFavorite ? (
-                    <button onClick={() => handleRemoveFromFavorites(show.id)}>Remove from Favorites</button>
-                ) : (
-                    <button onClick={() => handleAddToFavorites(show)}>Add to Favorites</button>
-                )}
-            </div>
         </div>
     );
 };
