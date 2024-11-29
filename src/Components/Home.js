@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../Components/Home.css';
 
+
 const Home = () => {
     const [shows, setShows] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
@@ -59,7 +60,9 @@ const Home = () => {
                                     Seasons: {Array.isArray(show.seasons) ? show.seasons.length : 0}
                                 </span>
                                 <span className="badge">
-                                    Episodes: {Array.isArray(show.seasons) ? show.seasons.reduce((acc, season) => acc + (Array.isArray(season.episodes) ? season.episodes.length : 0), 0) : 0}
+                                    Episodes: {Array.isArray(show.seasons)
+                                        ? show.seasons.reduce((acc, season) => acc + (Array.isArray(season.episodes) ? season.episodes.length : 0), 0)
+                                        : 0}
                                 </span>
                             </div>
                         </div>
