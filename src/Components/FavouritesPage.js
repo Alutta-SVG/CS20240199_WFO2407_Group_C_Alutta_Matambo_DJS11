@@ -1,32 +1,44 @@
 import React, { useEffect, useState } from 'react';
 
-const FavoritesPage = () => {
-  const [favorites, setFavorites] = useState([]);
+const Favorites = () => {
+    const [favorites, setFavorites] = useState([]);
 
-  useEffect(() => {
-    const storedFavorites = localStorage.getItem('/Favourites');
-    if (storedFavorites) {
-      setFavorites(JSON.parse(storedFavorites));
-    }
-  }, []);
+    useEffect(() => {
+        const savedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        setFavorites(savedFavorites);
+    }, []);
 
-  return (
-    <div>
-      <h1>Your Favorites</h1>
-      {favorites.length === 0 ? (
-        <p>No favorites yet</p>
-      ) : (
-        <ul>
-          {favorites.map((show) => (
-            <li key={show.id || `${show.name}-${show.audioUrl}`}>
-              <h3>{show.name || 'No name available'}</h3>
-              <p>{show.description || 'No description available'}</p>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
+    const removeFromFavorites = (showId) => {
+        const updatedFavorites = favorites.filter(show => show.id !== showId);
+        localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+        setFavorites(updatedFavorites);
+    };
+
+    return (
+        <div className="favorites">
+            <h1>My Favorites</h1>
+            <div className="shows-grid">
+                {favorites.map((show) => (
+                    <div key={show.id} className="show-card">
+                        <img
+                            src={show.image}
+                            alt={show.title}
+                            className="show-image"
+                        />
+                        <div className="show-info">
+                            <h3>{show.title}</h3>
+                            <button
+                                className="remove-button"
+                                onClick={() => removeFromFavorites(show.id)}
+                            >
+                                Remove from Favorites
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 };
 
-export default FavoritesPage;
+export default Favorites;

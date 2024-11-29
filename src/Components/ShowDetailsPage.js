@@ -26,7 +26,7 @@ const ShowDetailsPage = () => {
             })
             .catch((error) => console.error('Error fetching show details:', error));
 
-        const storedFavorites = JSON.parse(localStorage.getItem('/Favourites')) || [];
+        const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
         setFavorites(storedFavorites);
     }, [id]);
 
@@ -36,7 +36,7 @@ const ShowDetailsPage = () => {
 
     const updateFavorites = (updatedFavorites) => {
         setFavorites(updatedFavorites);
-        localStorage.setItem('/Favourites', JSON.stringify(updatedFavorites));
+        localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
     };
 
     const handleAddToFavorites = (episode) => {
@@ -86,6 +86,10 @@ const ShowDetailsPage = () => {
         <div className="show-details-container">
             <h1>{show?.title}</h1>
             <p>Last updated: {formattedDate}</p>
+
+            {show?.description && (
+                <p>{show.description}</p>
+            )}
 
             <div className="season-container">
                 <h2>Seasons</h2>
