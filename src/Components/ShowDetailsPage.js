@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import '../Components/ShowDetailsPage.css';
@@ -8,6 +8,11 @@ const ShowDetailsPage = () => {
     const [show, setShow] = useState(null);
     const [selectedSeason, setSelectedSeason] = useState(null);
     const [favorites, setFavorites] = useState([]);
+    const [currentAudio, setCurrentAudio] = useState(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [progress, setProgress] = useState(0);
+    const [isBarVisible, setIsBarVisible] = useState(false); // New state for progress bar visibility
+    const audioRef = useRef(null);
 
     useEffect(() => {
         fetch(`https://podcast-api.netlify.app/id/${id}`)
@@ -48,20 +53,41 @@ const ShowDetailsPage = () => {
     };
 
     const handlePlay = (episode) => {
-        console.log(`Playing episode: ${episode.title}`);
+        if (audioRef.current && currentAudio === episode.audioUrl && isPlaying) {
+            audioRef.current.pause();
+            setIsPlaying(false);
+        } else {
+            setCurrentAudio(episode.audioUrl);
+            setIsPlaying(true);
+            setIsBarVisible(true); // Show progress bar immediately on play
+            if (audioRef.current) {
+                audioRef.current.load();
+                audioRef.current.play();
+            }
+        }
     };
 
-    if (!show) return <div>Loading...</div>;
+    const handleTimeUpdate = () => {
+        if (audioRef.current) {
+            const currentProgress = (audioRef.current.currentTime / audioRef.current.duration) * 100;
+            setProgress(currentProgress);
+        }
+    };
+
+    const handleAudioEnd = () => {
+        setIsPlaying(false);
+        setIsBarVisible(false); // Hide progress bar when audio ends
+    };
 
     return (
         <div className="show-details-container">
-            <h1>{show.title}</h1>
+            <h1>{show?.title}</h1>
             <p>Last updated: {formattedDate}</p>
 
             <div className="season-container">
                 <h2>Seasons</h2>
                 <ul className="season-list">
-                    {show.seasons.map((season) => (
+                    {show?.seasons.map((season) => (
                         <li
                             key={season.id}
                             className={`season-item ${selectedSeason?.id === season.id ? 'active' : ''}`}
@@ -82,7 +108,9 @@ const ShowDetailsPage = () => {
                                 <div className="episode-info">
                                     <span>{episode.title}</span>
                                     <div className="episode-actions">
-                                        <button onClick={() => handlePlay(episode)}>Play</button>
+                                        <button onClick={() => handlePlay(episode)}>
+                                            {currentAudio === episode.audioUrl && isPlaying ? 'Pause' : 'Play'}
+                                        </button>
                                         {isFavorite(episode.id) ? (
                                             <button onClick={() => handleRemoveFromFavorites(episode.id)}>
                                                 Remove from Favorites
@@ -97,6 +125,25 @@ const ShowDetailsPage = () => {
                             </li>
                         ))}
                     </ul>
+                </div>
+            )}
+
+            {currentAudio && (
+                <div className="audio-player">
+                    <audio
+                        ref={audioRef}
+                        src={currentAudio}
+                        onTimeUpdate={handleTimeUpdate}
+                        onEnded={handleAudioEnd} // Handle audio end
+                    ></audio>
+                    {isBarVisible && ( // Show progress bar based on visibility state
+                        <div className="progress-bar">
+                            <div
+                                className="progress"
+                                style={{ width: `${progress}%` }}
+                            ></div>
+                        </div>
+                    )}
                 </div>
             )}
         </div>
