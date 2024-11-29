@@ -18,8 +18,8 @@ const Favorites = () => {
         <div className="favorites">
             <h1>My Favorites</h1>
             <div className="shows-grid">
-                {favorites.map((show) => (
-                    <div key={show.id} className="show-card">
+                {favorites.map((show, index) => (
+                    <div key={`${show.id}-${index}`} className="show-card">
                         <img
                             src={show.image}
                             alt={show.title}

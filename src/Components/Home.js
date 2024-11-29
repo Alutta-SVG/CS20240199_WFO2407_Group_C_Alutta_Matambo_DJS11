@@ -6,7 +6,8 @@ const Home = () => {
     const [shows, setShows] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredShows, setFilteredShows] = useState([]);
-    const [sortOption, setSortOption] = useState(''); // To track selected sort option
+    const [sortOption, setSortOption] = useState('');
+    const [isLoading, setIsLoading] = useState(true); // Loading state
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -15,8 +16,12 @@ const Home = () => {
             .then((data) => {
                 setShows(data);
                 setFilteredShows(data);
+                setIsLoading(false); // Data is fetched, so stop loading
             })
-            .catch((error) => console.error('Error fetching shows:', error));
+            .catch((error) => {
+                console.error('Error fetching shows:', error);
+                setIsLoading(false); // Stop loading in case of error
+            });
     }, []);
 
     const handleSearch = (e) => {
@@ -70,36 +75,41 @@ const Home = () => {
                     <option value="Recently Updated">Recently Updated</option>
                 </select>
             </header>
-            <div className="shows-grid">
-                {filteredShows.map((show) => (
-                    <div key={show.id} className="show-card">
-                        <img
-                            src={show.image}
-                            alt={show.title}
-                            className="show-image"
-                        />
-                        <div className="show-info">
-                            <h3>{show.title}</h3>
-                            <div className="badges">
-                                <span className="badge">
-                                    Seasons: {Array.isArray(show.seasons) ? show.seasons.length : 0}
-                                </span>
-                                <span className="badge">
-                                    Episodes: {Array.isArray(show.seasons)
-                                        ? show.seasons.reduce((acc, season) => acc + (Array.isArray(season.episodes) ? season.episodes.length : 0), 0)
-                                        : 0}
-                                </span>
+
+            {isLoading ? (
+                <div className="loading">Loading...</div> // Loading state UI
+            ) : (
+                <div className="shows-grid">
+                    {filteredShows.map((show) => (
+                        <div key={show.id} className="show-card">
+                            <img
+                                src={show.image}
+                                alt={show.title}
+                                className="show-image"
+                            />
+                            <div className="show-info">
+                                <h3>{show.title}</h3>
+                                <div className="badges">
+                                    <span className="badge">
+                                        Seasons: {Array.isArray(show.seasons) ? show.seasons.length : 0}
+                                    </span>
+                                    <span className="badge">
+                                        Episodes: {Array.isArray(show.seasons)
+                                            ? show.seasons.reduce((acc, season) => acc + (Array.isArray(season.episodes) ? season.episodes.length : 0), 0)
+                                            : 0}
+                                    </span>
+                                </div>
                             </div>
+                            <button
+                                className="details-button"
+                                onClick={() => navigate(`/show/${show.id}`)}
+                            >
+                                View Details
+                            </button>
                         </div>
-                        <button
-                            className="details-button"
-                            onClick={() => navigate(`/show/${show.id}`)}
-                        >
-                            View Details
-                        </button>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

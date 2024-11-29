@@ -13,9 +13,12 @@ const ShowDetailsPage = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [progress, setProgress] = useState(0);
     const [isBarVisible, setIsBarVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(true); // Add loading state
     const audioRef = useRef(null);
 
     useEffect(() => {
+        setIsLoading(true); // Set loading to true when fetching data
+
         fetch(`https://podcast-api.netlify.app/id/${id}`)
             .then((response) => response.json())
             .then((data) => {
@@ -23,8 +26,12 @@ const ShowDetailsPage = () => {
                 if (data.seasons.length > 0) {
                     setSelectedSeason(data.seasons[0]);
                 }
+                setIsLoading(false); // Set loading to false after data is fetched
             })
-            .catch((error) => console.error('Error fetching show details:', error));
+            .catch((error) => {
+                console.error('Error fetching show details:', error);
+                setIsLoading(false); // Also set loading to false in case of an error
+            });
 
         const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
         setFavorites(storedFavorites);
@@ -81,6 +88,14 @@ const ShowDetailsPage = () => {
         setIsPlaying(false);
         setIsBarVisible(false); // Hide progress bar when audio ends
     };
+
+    if (isLoading) {
+        return (
+            <div className="loading-container">
+                <h2>Loading...</h2> {/* Display a loading message or spinner */}
+            </div>
+        );
+    }
 
     return (
         <div className="show-details-container">
